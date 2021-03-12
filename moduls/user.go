@@ -1,6 +1,9 @@
 package moduls
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // User struct
 type User struct {
@@ -29,4 +32,14 @@ func AddUser(u User) (User, error) {
 	users = append(users, &u)
 
 	return u, nil
+}
+
+func GetUserByID(id int) (User, error) {
+	for _, u := range users {
+		if u.ID == id {
+			return *u, nil
+		}
+	}
+
+	return User{}, fmt.Errorf("User with ID '%v' not found", id)
 }
