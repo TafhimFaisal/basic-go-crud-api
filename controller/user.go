@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"regexp"
+	"strconv"
 
 	"github.com/TafhimFaisal/basic_crud_with_golang/moduls"
 )
@@ -24,7 +25,23 @@ func (uc UserController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotImplemented)
 		}
 	} else {
+		matches := uc.userIDPattern.FindStringSubmatch(r.URL.Path)
+		if len(matches) == 0 {
+			w.WriteHeader(http.StatusNotFound)
+		}
 
+		id, err := strconv.Atoi(matches[1])
+		if err != nil {
+			w.WriteHeader(http.StatusNotFound)
+		}
+		switch r.Method {
+		case http.MethodGet:
+			uc.get(id, w)
+		case http.MethodPut:
+			uc.put(id, w, r)
+		default:
+			w.WriteHeader(http.StatusNotFound)
+		}
 	}
 	// w.Write([]byte("hello from user controller !!!"))
 }
