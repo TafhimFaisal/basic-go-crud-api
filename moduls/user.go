@@ -1,5 +1,7 @@
 package moduls
 
+import "errors"
+
 // User struct
 type User struct {
 	ID        int
@@ -19,6 +21,9 @@ func GetUsers() []*User {
 
 // AddUser add user memory location to users array
 func AddUser(u User) (User, error) {
+	if u.ID != 0 {
+		return User{}, errors.New("New user must not use ID")
+	}
 	u.ID = nextID
 	nextID++
 	users = append(users, &u)
