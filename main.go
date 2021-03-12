@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/TafhimFaisal/golang/controller"
+	"github.com/TafhimFaisal/basic_crud_with_golang/controller"
 )
 
 func main() {
