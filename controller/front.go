@@ -1,6 +1,10 @@
 package controller
 
-import "net/http"
+import (
+	"encoding/json"
+	"io"
+	"net/http"
+)
 
 // RegistarController Registar Controller
 func RegistarController() {
@@ -8,4 +12,9 @@ func RegistarController() {
 
 	http.Handle("/user", *uc)
 	http.Handle("/user/", *uc)
+}
+
+func encodeResponseAsJSON(data interface{}, w io.Writer) {
+	enc := json.NewEncoder(w)
+	enc.Encode(data)
 }
