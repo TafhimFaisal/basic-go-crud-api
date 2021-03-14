@@ -14,6 +14,24 @@ type UserController struct {
 	userIDPattern *regexp.Regexp
 }
 
+func (uc *UserController) parseRequest(r *http.Request) (moduls.User, error) {
+	dec := json.NewDecoder(r.Body)
+	var u moduls.User
+	err := dec.Decode(&u)
+
+	if err != nil {
+		return moduls.User{}, err
+	}
+
+	return u, nil
+}
+
+func newUserController() *UserController {
+	return &UserController{
+		userIDPattern: regexp.MustCompile(`^/users/(\d+)/?`),
+	}
+}
+
 func (uc UserController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/users" {
 		switch r.Method {
@@ -25,6 +43,9 @@ func (uc UserController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotImplemented)
 		}
 	} else {
+
+		//  w.Write([]byte("hello from user controller !!!"))
+
 		matches := uc.userIDPattern.FindStringSubmatch(r.URL.Path)
 		if len(matches) == 0 {
 			w.WriteHeader(http.StatusNotFound)
@@ -34,6 +55,7 @@ func (uc UserController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
 		}
+
 		switch r.Method {
 		case http.MethodGet:
 			uc.get(id, w)
@@ -43,10 +65,10 @@ func (uc UserController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 		}
 	}
-	// w.Write([]byte("hello from user controller !!!"))
 }
 
 func (uc *UserController) getAll(w http.ResponseWriter, r *http.Request) {
+	// w.Write([]byte("hello from user controller !!!"))
 	encodeResponseAsJSON(moduls.GetUsers(), w)
 }
 
@@ -108,22 +130,4 @@ func (uc *UserController) delete(id int, w http.ResponseWriter) {
 	}
 	w.WriteHeader(http.StatusOK)
 
-}
-
-func (uc *UserController) parseRequest(r *http.Request) (moduls.User, error) {
-	dec := json.NewDecoder(r.Body)
-	var u moduls.User
-	err := dec.Decode(&u)
-
-	if err != nil {
-		return moduls.User{}, err
-	}
-
-	return u, nil
-}
-
-func newUserController() *UserController {
-	return &UserController{
-		userIDPattern: regexp.MustCompile(`^/users/(\d+)/?`),
-	}
 }
