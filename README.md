@@ -18,5 +18,5 @@ Compile with `go build github.com/TafhimFaisal/basic_crud_with_golang ` <br/>
 or run with `go run github.com/TafhimFaisal/basic_crud_with_golang ` <br/>
 this app will run at `http://localhost:3000`<br/>
 
-## blog
+## check out my blog about golang
 check out my blog https://learninggolangwithtafhim.blogspot.com/
