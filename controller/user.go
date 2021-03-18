@@ -61,6 +61,8 @@ func (uc UserController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			uc.get(id, w)
 		case http.MethodPut:
 			uc.put(id, w, r)
+		case http.MethodDelete:
+			uc.delete(id, w)
 		default:
 			w.WriteHeader(http.StatusNotFound)
 		}
