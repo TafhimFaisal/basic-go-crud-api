@@ -20,3 +20,4 @@ this app will run at `http://localhost:3000`<br/>
 
 ## check out my blog about golang
 check out my blog https://learninggolangwithtafhim.blogspot.com/
+check out this blog https://learninggolangwithtafhim.blogspot.com/2021/04/crud-with-golang.html . to have a explanation of this code.
